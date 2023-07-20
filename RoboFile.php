@@ -1,12 +1,51 @@
 <?php
 
+/**
+ * PHP Library for Project Version Management
+ *
+ * This library provides tasks for automating versioning in PHP projects. It
+ * allows you to increment the version based on different levels (major, minor,
+ * patch, dev, beta, rc), and update version references in various files such as
+ * PHP files, README.md, package.json, and readme.txt.
+ *
+ * Usage:
+ *   php ./RoboFile.php bumb:version [level]
+ *
+ * To use with composer, add the following script to your composer.json:
+ *
+ *   "scripts": {
+ *     "bump-version": "robo [--load-from=path/to/RoboFile.php] bump:version"
+ *    }
+ *
+ * --load-from is only needed if RoboFile.php is not in the root path of
+ * your project.
+ *
+ * Level can be major, minor, patch, rc, beta or dev
+ *
+ * @package php-bump-version
+ * @version 1.0.0
+ * @author Olivier van Helden
+ * @link https://magiiic.com/
+ *
+ * Donate to support this project
+ * @link https://magiiic.com/donation/projet/?project=project-donations-wc
+ */
+
 use Robo\Tasks;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * Class RoboFile
+ *
+ * This class provides tasks for bumping the version of a project.
+ */
 class RoboFile extends \Robo\Tasks {
 
 	protected $rootpath;
 
+	/**
+	 * RoboFile constructor.
+	 */
 	function __construct() {
 		$this->rootpath = $this->getRootPath();
 		if ( $this->rootpath === null ) {
@@ -196,6 +235,11 @@ class RoboFile extends \Robo\Tasks {
 		return null;
 	}
 
+	/**
+	 * Retrieves the root path of the project.
+	 *
+	 * @return string|null The root path of the project, or null if not found.
+	 */
 	private function getRootPath() {
 			$gitRoot = exec( 'git rev-parse --show-toplevel' );
 			return $gitRoot !== false ? realpath( $gitRoot ) : null;
