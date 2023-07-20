@@ -1,1 +1,1 @@
-# php-bump-version
+# Composer scripts to bump PHP project version

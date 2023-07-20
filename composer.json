@@ -1,0 +1,15 @@
+{
+    "name": "magicoli/php-bump-version",
+    "description": "Composer scripts to bump PHP project version",
+    "type": "library",
+    "license": "AGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Olivier van Helden",
+            "email": "olivier@van-helden.net"
+        }
+    ],
+    "require": {
+        "consolidation/robo": "^4.0"
+    }
+}
