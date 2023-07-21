@@ -1,6 +1,6 @@
 {
-  "name": "magicoli/php-bump-version",
-  "description": "Composer scripts to bump PHP project version",
+  "name": "magicoli/php-bump-library",
+  "description": "PHP Library for Project Version Management",
   "type": "library",
   "license": "AGPL-3.0-or-later",
   "authors": [

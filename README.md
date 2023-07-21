@@ -1,6 +1,6 @@
 # PHP Library for Project Version Management
 
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](#) [![Stable](https://img.shields.io/badge/Stable-1.0.0-green.svg)](#) [![License](https://img.shields.io/badge/License-AGPLv3-purple.svg)](#)
+[![Version](https://img.shields.io/badge/Version-1.0.1-blue.svg)](#) [![Stable](https://img.shields.io/badge/Stable-1.0.1-green.svg)](#) [![License](https://img.shields.io/badge/License-AGPLv3-purple.svg)](#)
 
 This library provides tasks for automating versioning of your PHP projects.
 
@@ -11,14 +11,14 @@ It allows you to increment the version based on different levels (major, minor, 
 Run the following command in your project directory:
 
 ```bash
-composer require --dev magicoli/php-bump-version
+composer require --dev magicoli/php-bump-library
 ```
 
 And add the following script to your `composer.json` file:
 
 ```json
  "scripts": {
-    "bump-version": "robo --load-from=vendor/magicoli/php-bump-version/RoboFile.php bump:version"
+    "bump-version": "robo --load-from=vendor/magicoli/php-bump-library/RoboFile.php bump:version"
   }
 ```
 

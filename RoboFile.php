@@ -22,8 +22,8 @@
  *
  * Level can be major, minor, patch, rc, beta or dev
  *
- * @package php-bump-version
- * @version 1.0.0
+ * @package php-bump-library
+ * @version 1.0.1
  * @author Olivier van Helden
  * @link https://magiiic.com/
  *

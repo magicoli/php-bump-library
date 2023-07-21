@@ -1,6 +1,6 @@
 <?php return array(
     'root' => array(
-        'name' => 'magicoli/php-bump-version',
+        'name' => 'magicoli/php-bump-library',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
         'reference' => '6b6bbf84ca422346ff6406c3ef7fe1fad5e49dd0',
@@ -100,7 +100,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'magicoli/php-bump-version' => array(
+        'magicoli/php-bump-library' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
             'reference' => '6b6bbf84ca422346ff6406c3ef7fe1fad5e49dd0',
