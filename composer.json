@@ -9,8 +9,8 @@
       "email": "olivier@van-helden.net"
     }
   ],
-  "require-dev": {
-    "robo/tasks": "^4.0"
+  "require": {
+    "consolidation/robo": "^4.0"
   },
   "scripts": {
     "bump-version": "robo bump:version"

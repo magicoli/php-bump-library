@@ -3,7 +3,7 @@
         'name' => 'magicoli/php-bump-library',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '6b6bbf84ca422346ff6406c3ef7fe1fad5e49dd0',
+        'reference' => '8e9e3df65ffbf3e7c5d72454ae45105458bec478',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -103,7 +103,7 @@
         'magicoli/php-bump-library' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '6b6bbf84ca422346ff6406c3ef7fe1fad5e49dd0',
+            'reference' => '8e9e3df65ffbf3e7c5d72454ae45105458bec478',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
