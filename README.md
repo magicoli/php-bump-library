@@ -1,6 +1,6 @@
 # PHP Library for Project Version Management
 
-[![Version](https://img.shields.io/badge/Version-0.3.0-blue.svg)](#) [![Stable](https://img.shields.io/badge/Stable-0.3.0-green.svg)](#) [![License](https://img.shields.io/badge/License-AGPLv3-purple.svg)](#)
+[![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](#) [![Stable](https://img.shields.io/badge/Stable-1.0.0-green.svg)](#) [![License](https://img.shields.io/badge/License-AGPLv3-purple.svg)](#)
 
 This library provides tasks for automating versioning of your PHP projects.
 
