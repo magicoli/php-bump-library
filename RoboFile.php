@@ -23,7 +23,7 @@
  * Level can be major, minor, patch, rc, beta or dev
  *
  * @package php-bump-version
- * @version 1.0.0
+ * @version 0.2.0
  * @author Olivier van Helden
  * @link https://magiiic.com/
  *
@@ -42,16 +42,13 @@ use Symfony\Component\Finder\Finder;
 class RoboFile extends \Robo\Tasks {
 
 	protected $rootpath;
+	protected $package;
 
 	/**
 	 * RoboFile constructor.
 	 */
 	function __construct() {
-		$this->rootpath = $this->getRootPath();
-		if ( $this->rootpath === null ) {
-			$this->say( 'Failed to determine the project root path. Make sure the project is inside a Git repository.' );
-			die();
-		}
+		$this->setRootPath();
 	}
 
 	/**
@@ -60,7 +57,8 @@ class RoboFile extends \Robo\Tasks {
 	 * @param string $level The level to increment (major, minor, patch, dev, beta, rc). Default: patch
 	 */
 	public function bumpVersion( $level = 'patch' ) {
-		$this->say( 'Project root ' . $this->rootpath );
+		$this->say( 'Package  ' . $this->package );
+		$this->say( 'Rootpath ' . $this->rootpath );
 
 		$versionFile = $this->rootpath . '/.version';
 
@@ -78,14 +76,14 @@ class RoboFile extends \Robo\Tasks {
 			"define( '$1', '$nextVersion' );"
 		);
 
-		// $this->replaceInFile($this->rootpath . '/package.json', '/"version":\s*"' . $pattern . '"\s*,/', '"version": "' . $nextVersion . '",');
-		// $this->replaceInFile($this->rootpath . '/README.md', '/Version ' . $pattern . '/', "Version $nextVersion");
-		// if (!preg_match('/(dev|beta|rc)/i', $nextVersion)) {
-		// $this->replaceInFile($this->rootpath . '/readme.txt', '/Stable tag:\s+' . $pattern . '/', "Stable tag: $nextVersion");
-		// }
-		//
-		// $phpFiles = $this->getPhpFilesWithPackage('project-donations-wc'); // Replace 'project-donations-wc' with your package name
-		// $this->replaceInFiles($phpFiles, '/@version\s+' . $pattern . '/', "@version $nextVersion");
+		$this->replaceInFile($this->rootpath . '/package.json', '/"version":\s*"' . $pattern . '"\s*,/', '"version": "' . $nextVersion . '",');
+		$this->replaceInFile($this->rootpath . '/README.md', '/Version ' . $pattern . '/', "Version $nextVersion");
+		if (!preg_match('/(dev|beta|rc)/i', $nextVersion)) {
+		$this->replaceInFile($this->rootpath . '/readme.txt', '/Stable tag:\s+' . $pattern . '/', "Stable tag: $nextVersion");
+		}
+
+		$phpFiles = $this->getPhpFilesWithPackage($this->package); // Replace 'project-donations-wc' with your package name
+		$this->replaceInFiles($phpFiles, '/@version\s+' . $pattern . '/', "@version $nextVersion");
 
 		$this->say( "Version bumped to: $nextVersion" );
 	}
@@ -175,9 +173,10 @@ class RoboFile extends \Robo\Tasks {
 	 * @param string $replacement The replacement string.
 	 */
 	private function replaceInFile( $file, $pattern, $replacement ) {
-		if ( empty( $file ) ) {
+		if (empty($file) || !file_exists($file)) {
 			return;
 		}
+		
 		$this->say( 'Updating ' . realpath( $file ) );
 		// return; // DEBUG: don't apply changes
 		$contents = file_get_contents( $file );
@@ -240,8 +239,18 @@ class RoboFile extends \Robo\Tasks {
 	 *
 	 * @return string|null The root path of the project, or null if not found.
 	 */
-	private function getRootPath() {
+	private function setRootPath() {
 			$gitRoot = exec( 'git rev-parse --show-toplevel' );
-			return $gitRoot !== false ? realpath( $gitRoot ) : null;
+			$this->rootpath = $gitRoot !== false ? realpath( $gitRoot ) : null;
+
+			if ( $this->rootpath === null ) {
+				$this->say( 'Failed to determine the project root path. Make sure the project is inside a Git repository.' );
+				die();
+			}
+
+			$composerFile = $this->rootpath . '/composer.json';
+			$composerData = file_get_contents($composerFile);
+			$composerJson = json_decode($composerData, true);
+			$this->package = basename($composerJson['name']);
 	}
 }
