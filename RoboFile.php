@@ -23,7 +23,7 @@
  * Level can be major, minor, patch, rc, beta or dev
  *
  * @package php-bump-version
- * @version 0.2.0
+ * @version 0.3.0
  * @author Olivier van Helden
  * @link https://magiiic.com/
  *
@@ -66,7 +66,7 @@ class RoboFile extends \Robo\Tasks {
 		$nextVersion    = $this->incrementVersion( $currentVersion, $level );
 		file_put_contents( $versionFile, $nextVersion );
 
-		$pattern = '\d+\.\d+\.\d+(-[A-Za-z]+(-[a-zA-Z0-9\.-]+)?)?';
+		$pattern = '\d+\.\d+\.\d+([\.-][a-zA-Z0-9]+)*';
 
 		$mainPhpFile = $this->findMainPhpFile();
 		$this->replaceInFile( $mainPhpFile, '/(\*\s*Version:\s*)' . $pattern . '/', "\${1}$nextVersion" );
@@ -75,11 +75,18 @@ class RoboFile extends \Robo\Tasks {
 			'/define\(\s*\'([A-Za-z0-9_]+_VERSION)\',\s*\'(' . $pattern . ')\'\s*\);/',
 			"define( '$1', '$nextVersion' );"
 		);
+		$dotNextVersion = preg_replace('/-/', '.', $nextVersion);
 
 		$this->replaceInFile($this->rootpath . '/package.json', '/"version":\s*"' . $pattern . '"\s*,/', '"version": "' . $nextVersion . '",');
-		$this->replaceInFile($this->rootpath . '/README.md', '/Version ' . $pattern . '/', "Version $nextVersion");
+		$this->replaceInFile($this->rootpath . '/README.md', '~Version ' . $pattern . '~', "Version $nextVersion");
+		$this->replaceInFile($this->rootpath . '/README.md', '~Version/' . $pattern . '/~', "Version/$nextVersion/");
+		$this->replaceInFile($this->rootpath . '/README.md', '/Version-' . $pattern . '-/', "Version-$dotNextVersion-");
+
 		if (!preg_match('/(dev|beta|rc)/i', $nextVersion)) {
-		$this->replaceInFile($this->rootpath . '/readme.txt', '/Stable tag:\s+' . $pattern . '/', "Stable tag: $nextVersion");
+			$this->replaceInFile($this->rootpath . '/readme.txt', '/Stable tag:\s+' . $pattern . '/', "Stable tag: $nextVersion");
+			$this->replaceInFile($this->rootpath . '/README.md', '/Stable ' . $pattern . '/', "Stable $nextVersion");
+			$this->replaceInFile($this->rootpath . '/README.md', '~Stable/' . $pattern . '/~', "Stable/$nextVersion/");
+			$this->replaceInFile($this->rootpath . '/README.md', '/Stable-' . $pattern . '-/', "Stable-$dotNextVersion-");
 		}
 
 		$phpFiles = $this->getPhpFilesWithPackage($this->package); // Replace 'project-donations-wc' with your package name
@@ -176,7 +183,7 @@ class RoboFile extends \Robo\Tasks {
 		if (empty($file) || !file_exists($file)) {
 			return;
 		}
-		
+
 		$this->say( 'Updating ' . realpath( $file ) );
 		// return; // DEBUG: don't apply changes
 		$contents = file_get_contents( $file );
